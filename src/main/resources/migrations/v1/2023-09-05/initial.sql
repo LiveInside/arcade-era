@@ -1,14 +1,14 @@
 CREATE TABLE Publisher
 (
-    Publisher_ID SERIAL PRIMARY KEY,
-    Name         VARCHAR(100) NOT NULL,
-    Country      VARCHAR(100),
-    Hide         BOOLEAN
+    ID      SERIAL PRIMARY KEY,
+    Name    VARCHAR(100) NOT NULL,
+    Country VARCHAR(100),
+    Hide    BOOLEAN
 );
 
 CREATE TABLE Game
 (
-    Game_ID         SERIAL PRIMARY KEY,
+    ID              SERIAL PRIMARY KEY,
     Name            VARCHAR(100) NOT NULL,
     Price           MONEY,
     Platform        VARCHAR(100),
@@ -16,21 +16,21 @@ CREATE TABLE Game
     Age_rating      VARCHAR(10),
     User_evaluation DECIMAL(2, 1),
     Hide            BOOLEAN,
-    Publisher_ID    INT REFERENCES Publisher (Publisher_ID)
+    Publisher_ID    INT REFERENCES Publisher (ID)
 );
 
-CREATE TABLE "User"
+CREATE TABLE "user"
 (
-    User_ID SERIAL PRIMARY KEY,
+    ID      SERIAL PRIMARY KEY,
     Region  VARCHAR(100),
     Age     SMALLINT,
     Balance MONEY,
     Name    VARCHAR(100),
-    Game_ID INT REFERENCES Game (Game_ID)
+    Game_ID INT REFERENCES Game (ID)
 );
 
 
-INSERT INTO "User" (Region, Age, Balance, Name)
+INSERT INTO "user" (Region, Age, Balance, Name)
 VALUES ('rus', 21, 100, 'Никита'),
        ('eng', 17, 30, 'Томас'),
        ('us', 30, 700.81, 'Генри');

@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ArcadeEra-dataBase
+    username: postgres
+    password: nik12345
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:/migrations/db.changelog-master.xml
+    database-change-log-table: _databasechangelog
+    database-change-log-lock-table: _databasechangeloglock
+
