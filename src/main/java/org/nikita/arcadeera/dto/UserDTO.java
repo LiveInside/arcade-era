@@ -2,7 +2,6 @@ package org.nikita.arcadeera.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.nikita.arcadeera.entity.Game;
 
 import java.math.BigDecimal;
 
