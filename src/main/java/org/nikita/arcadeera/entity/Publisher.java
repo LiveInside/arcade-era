@@ -1,40 +1,37 @@
 package org.nikita.arcadeera.entity;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
-
-import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 @Table(name = "publisher")
+@Data
+@Accessors(chain = true)
 public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    @Getter
     private Integer id;
 
     @Column(name = "name")
-    @Getter @Setter
     private String name;
 
     @Column(name = "county")
-    @Getter @Setter
     private String country;
 
     @Column(name = "hide")
-    @Getter @Setter
     private boolean hide;
 
-    @OneToMany(mappedBy = "publisher")
-    @Getter
-    private List<Game> games = new ArrayList<>();
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Game> games;
 }

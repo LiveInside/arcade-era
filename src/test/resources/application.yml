@@ -9,5 +9,3 @@ spring:
     change-log: classpath:/migrations/db.changelog-master.xml
     database-change-log-table: _databasechangelog
     database-change-log-lock-table: _databasechangeloglock
-server:
-  port: 8090
