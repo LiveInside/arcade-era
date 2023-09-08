@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "user")
+@Table(name = "t_user")
 @Data
 @Accessors(chain = true)
 public class User {
@@ -36,6 +36,5 @@ public class User {
     private String name;
 
     @ManyToOne
-    @Column(name = "game_id")
-    private Game gameId;
+    private Game game;
 }

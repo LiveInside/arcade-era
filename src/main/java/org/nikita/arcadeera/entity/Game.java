@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -17,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "game")
+@Table(name = "t_game")
 @Data
 @Accessors(chain = true)
 public class Game {
@@ -47,7 +46,7 @@ public class Game {
     @Column(name = "hide")
     private boolean hide;
 
-    @OneToMany(mappedBy = "game_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users;
 
     @ManyToOne

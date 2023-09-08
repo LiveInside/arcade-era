@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 import java.util.List;
 
 @Entity
-@Table(name = "publisher")
+@Table(name = "t_publisher")
 @Data
 @Accessors(chain = true)
 public class Publisher {
@@ -26,7 +26,7 @@ public class Publisher {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "county")
+    @Column(name = "country")
     private String country;
 
     @Column(name = "hide")

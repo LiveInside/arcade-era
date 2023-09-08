@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         if (CollectionUtils.isEmpty(users)) {
-            log.info("Таблица games пустая");
+            log.info("Таблица user пустая");
             return Collections.emptyList();
         }
 
