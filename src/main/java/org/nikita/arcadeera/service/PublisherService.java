@@ -1,6 +1,7 @@
 package org.nikita.arcadeera.service;
 
-import org.nikita.arcadeera.dto.PublisherDTO;
+import org.nikita.arcadeera.dto.request.RequestPublisherDTO;
+import org.nikita.arcadeera.dto.response.PublisherDTO;
 
 import java.util.List;
 
@@ -9,7 +10,9 @@ public interface PublisherService {
 
     List<PublisherDTO> getAllPublisher();
 
-    void createOrUpdatePublisher(PublisherDTO publisherDTO);
+    PublisherDTO createPublisher(PublisherDTO publisherDTO);
+
+    PublisherDTO updatePublisher(RequestPublisherDTO publisherDTO, Integer id);
 
     void deletePublisher(Integer id);
 

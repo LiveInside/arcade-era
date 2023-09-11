@@ -2,8 +2,10 @@ package org.nikita.arcadeera.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.nikita.arcadeera.converter.UserConverter;
-import org.nikita.arcadeera.dto.UserDTO;
+import org.nikita.arcadeera.converter.user.UserConverterToDTO;
+import org.nikita.arcadeera.converter.user.UserConverterToEntity;
+import org.nikita.arcadeera.dto.request.RequestUserDTO;
+import org.nikita.arcadeera.dto.response.UserDTO;
 import org.nikita.arcadeera.entity.User;
 import org.nikita.arcadeera.exception.EmptyParam;
 import org.nikita.arcadeera.repository.UserRepository;
@@ -20,17 +22,13 @@ import java.util.Objects;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final UserConverter userConverter;
+    private final UserConverterToDTO userConverterToDTO;
+    private final UserConverterToEntity userConverterToEntity;
 
     @Override
     public UserDTO getUserByID(Integer id) {
         User user = userRepository.findById(id).orElse(null);
-        if (Objects.isNull(user)) {
-            log.info("User не найден");
-            return null;
-        }
-
-        return userConverter.toDTO(user);
+        return userConverterToDTO.convert(user);
     }
 
     @Override
@@ -42,16 +40,36 @@ public class UserServiceImpl implements UserService {
         }
 
         return users.stream()
-                .map(userConverter::toDTO)
+                .map(userConverterToDTO::convert)
                 .toList();
     }
 
     @Override
-    public void createOrUpdateUser(UserDTO userDTO) {
-        if (Objects.isNull(userDTO))
-            throw new EmptyParam("Пустой параметр");
-        User user = userConverter.toEntity(userDTO);
+    public UserDTO createUser(UserDTO userDTO) {
+        User user = userConverterToEntity.convert(userDTO);
         userRepository.save(user);
+        return userConverterToDTO.convert(user);
+    }
+
+    @Override
+    public UserDTO updateUser(RequestUserDTO userDTO, Integer id) {
+        User user = userRepository.findById(id).orElse(null);
+        UserDTO updatedUserDTO = userConverterToDTO.convert(user);
+
+        if (userDTO.getName().isEmpty()) {
+            throw new EmptyParam("Поле \"Имя\" обязательно для заполнения");
+        }
+        if (userDTO.getRegion().isEmpty()) {
+            throw new EmptyParam("Поле \"Регион\" обязательно для заполнения");
+        }
+
+        updatedUserDTO.setBalance(userDTO.getBalance())
+                .setRegion(userDTO.getRegion())
+                .setName(userDTO.getName());
+
+        User updatedUser = userConverterToEntity.convert(updatedUserDTO);
+        userRepository.save(updatedUser);
+        return updatedUserDTO;
     }
 
     @Override

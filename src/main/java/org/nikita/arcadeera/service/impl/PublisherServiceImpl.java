@@ -2,8 +2,10 @@ package org.nikita.arcadeera.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.nikita.arcadeera.converter.PublisherConverter;
-import org.nikita.arcadeera.dto.PublisherDTO;
+import org.nikita.arcadeera.converter.publisher.PublisherConverterToDTO;
+import org.nikita.arcadeera.converter.publisher.PublisherConverterToEntity;
+import org.nikita.arcadeera.dto.request.RequestPublisherDTO;
+import org.nikita.arcadeera.dto.response.PublisherDTO;
 import org.nikita.arcadeera.entity.Publisher;
 import org.nikita.arcadeera.exception.EmptyParam;
 import org.nikita.arcadeera.repository.PublisherRepository;
@@ -20,16 +22,14 @@ import java.util.Objects;
 @AllArgsConstructor
 public class PublisherServiceImpl implements PublisherService {
     private final PublisherRepository publisherRepository;
-    private final PublisherConverter publisherConverter;
+    private final PublisherConverterToDTO publisherConverterToDTO;
+    private final PublisherConverterToEntity publisherConverterToEntity;
+
 
     @Override
     public PublisherDTO getPublisherById(Integer id) {
         Publisher publisher = publisherRepository.findById(id).orElse(null);
-        if (Objects.isNull(publisher)) {
-            log.info("Издатель не найден");
-            return null;
-        }
-        return publisherConverter.toDTO(publisher);
+        return publisherConverterToDTO.convert(publisher);
     }
 
     @Override
@@ -41,17 +41,32 @@ public class PublisherServiceImpl implements PublisherService {
         }
 
         return publishers.stream()
-                .map(publisherConverter::toDTO)
+                .map(publisherConverterToDTO::convert)
                 .toList();
     }
 
     @Override
-    public void createOrUpdatePublisher(PublisherDTO publisherDTO) {
-        if (Objects.isNull(publisherDTO))
-            throw new EmptyParam("Параметр пуст");
-
-        Publisher publisher = publisherConverter.toEntity(publisherDTO);
+    public PublisherDTO createPublisher(PublisherDTO publisherDTO) {
+        Publisher publisher = publisherConverterToEntity.convert(publisherDTO);
         publisherRepository.save(publisher);
+        return publisherConverterToDTO.convert(publisher);
+    }
+
+    @Override
+    public PublisherDTO updatePublisher(RequestPublisherDTO publisherDTO, Integer id) {
+        Publisher publisher = publisherRepository.findById(id).orElse(null);
+        PublisherDTO updatedPublisherDTO = publisherConverterToDTO.convert(publisher);
+
+        if (publisherDTO.getCountry().isEmpty()) {
+            throw new EmptyParam("Поле \"Страна\" обязательно для заполнения");
+        }
+
+        updatedPublisherDTO.setCountry(publisherDTO.getCountry())
+                .setHide(publisherDTO.isHide());
+
+        Publisher updatedPublisher = publisherConverterToEntity.convert(updatedPublisherDTO);
+        publisherRepository.save(updatedPublisher);
+        return updatedPublisherDTO;
     }
 
     @Override

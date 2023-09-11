@@ -1,19 +1,16 @@
-package org.nikita.arcadeera.dto;
+package org.nikita.arcadeera.dto.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @Accessors(chain = true)
-public class UserDTO {
-
-    private Integer id;
-
+public class RequestUserDTO {
     private String region;
-
-    private Short age;
 
     private BigDecimal balance;
 

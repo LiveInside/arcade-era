@@ -1,6 +1,7 @@
 package org.nikita.arcadeera.service;
 
-import org.nikita.arcadeera.dto.GameDTO;
+import org.nikita.arcadeera.dto.request.RequestGameDTO;
+import org.nikita.arcadeera.dto.response.GameDTO;
 
 import java.util.List;
 
@@ -9,7 +10,9 @@ public interface GameService {
 
     List<GameDTO> getAllGames();
 
-    void createOrUpdateGame(GameDTO gameDTO);
+    GameDTO createGame(GameDTO gameDTO);
+
+    GameDTO updateGame(RequestGameDTO gameDTO, Integer id);
 
     void deleteGame(Integer id);
 }

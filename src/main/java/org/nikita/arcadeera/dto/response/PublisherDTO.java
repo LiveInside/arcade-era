@@ -1,12 +1,11 @@
-package org.nikita.arcadeera.dto;
+package org.nikita.arcadeera.dto.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.nikita.arcadeera.entity.Game;
 
-import java.util.List;
-
-@Data
+@Getter
+@Setter
 @Accessors(chain = true)
 public class PublisherDTO {
 
@@ -18,5 +17,4 @@ public class PublisherDTO {
 
     private boolean hide;
 
-    private List<Game> games;
 }

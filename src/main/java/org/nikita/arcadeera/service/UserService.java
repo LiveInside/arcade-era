@@ -1,6 +1,7 @@
 package org.nikita.arcadeera.service;
 
-import org.nikita.arcadeera.dto.UserDTO;
+import org.nikita.arcadeera.dto.request.RequestUserDTO;
+import org.nikita.arcadeera.dto.response.UserDTO;
 
 import java.util.List;
 
@@ -9,7 +10,9 @@ public interface UserService {
 
     List<UserDTO> getAllUsers();
 
-    void createOrUpdateUser(UserDTO userDTO);
+    UserDTO createUser(UserDTO userDTO);
+
+    UserDTO updateUser(RequestUserDTO userDTO, Integer id);
 
     void deleteUser(Integer id);
 }

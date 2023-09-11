@@ -1,13 +1,13 @@
-package org.nikita.arcadeera.dto;
+package org.nikita.arcadeera.dto.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.nikita.arcadeera.entity.User;
 
 import java.math.BigDecimal;
-import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Accessors(chain = true)
 public class GameDTO {
 
@@ -27,5 +27,4 @@ public class GameDTO {
 
     private boolean hide;
 
-    private List<User> users;
 }

@@ -2,8 +2,10 @@ package org.nikita.arcadeera.controller.impl;
 
 import lombok.AllArgsConstructor;
 import org.nikita.arcadeera.controller.PublisherController;
-import org.nikita.arcadeera.dto.PublisherDTO;
+import org.nikita.arcadeera.dto.request.RequestPublisherDTO;
+import org.nikita.arcadeera.dto.response.PublisherDTO;
 import org.nikita.arcadeera.service.PublisherService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -14,22 +16,28 @@ public class PublisherControllerImpl implements PublisherController {
     private final PublisherService publisherService;
 
     @Override
-    public PublisherDTO getPublisherById(Integer id) {
-        return publisherService.getPublisherById(id);
+    public ResponseEntity<PublisherDTO> getPublisherById(Integer id) {
+        return ResponseEntity.ok().body(publisherService.getPublisherById(id));
     }
 
     @Override
-    public List<PublisherDTO> getAllPublisher() {
-        return publisherService.getAllPublisher();
+    public ResponseEntity<List<PublisherDTO>> getAllPublisher() {
+        return ResponseEntity.ok().body(publisherService.getAllPublisher());
     }
 
     @Override
-    public void createOrUpdatePublisher(PublisherDTO publisherDTO) {
-        publisherService.createOrUpdatePublisher(publisherDTO);
+    public ResponseEntity<PublisherDTO> createPublisher(PublisherDTO publisherDTO) {
+        return ResponseEntity.ok().body(publisherService.createPublisher(publisherDTO));
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public ResponseEntity<PublisherDTO> updatePublisher(RequestPublisherDTO publisherDTO, Integer id) {
+        return ResponseEntity.ok().body(publisherService.updatePublisher(publisherDTO, id));
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteUser(Integer id) {
         publisherService.deletePublisher(id);
+        return ResponseEntity.noContent().build();
     }
 }

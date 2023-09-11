@@ -2,8 +2,10 @@ package org.nikita.arcadeera.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.nikita.arcadeera.converter.GameConverter;
-import org.nikita.arcadeera.dto.GameDTO;
+import org.nikita.arcadeera.converter.game.GameConverterToDTO;
+import org.nikita.arcadeera.converter.game.GameConverterToEntity;
+import org.nikita.arcadeera.dto.request.RequestGameDTO;
+import org.nikita.arcadeera.dto.response.GameDTO;
 import org.nikita.arcadeera.entity.Game;
 import org.nikita.arcadeera.exception.EmptyParam;
 import org.nikita.arcadeera.repository.GameRepository;
@@ -19,39 +21,47 @@ import java.util.Objects;
 @Log4j2
 @AllArgsConstructor
 public class GameServiceImpl implements GameService {
-
     private final GameRepository gameRepository;
-    private final GameConverter gameConverter;
+    private final GameConverterToDTO gameConverterToDTO;
+    private final GameConverterToEntity gameConverterToEntity;
 
     @Override
     public GameDTO getGameById(Integer id) {
         Game game = gameRepository.findById(id).orElse(null);
-        if (Objects.isNull(game)) {
-            log.info("Игра не найдена");
-            return null;
-        }
-        return gameConverter.toDTO(game);
+        return gameConverterToDTO.convert(game);
     }
 
     @Override
     public List<GameDTO> getAllGames() {
-        List<Game> games = gameRepository.findAll(); //Находим и извлекает все игры из репозитория
+        List<Game> games = gameRepository.findAll(); //Находим и извлекаем все игры из репозитория
         if (CollectionUtils.isEmpty(games)) {
             log.info("Таблица games пустая");
             return Collections.emptyList();
         }
         return games.stream()
-                .map(gameConverter::toDTO) // Преобразуем Entity в DTO
+                .map(gameConverterToDTO::convert)
                 .toList(); // Собираем список DTO и возвращаем его
     }
 
     @Override
-    public void createOrUpdateGame(GameDTO gameDTO) {
-        if (Objects.isNull(gameDTO))
-            throw new EmptyParam("Параметр пуст");
-
-        Game game = gameConverter.toEntity(gameDTO);
+    public GameDTO createGame(GameDTO gameDTO) {
+        Game game = gameConverterToEntity.convert(gameDTO);
         gameRepository.save(game); // Сохраняем
+        return gameConverterToDTO.convert(game);
+    }
+
+    @Override
+    public GameDTO updateGame(RequestGameDTO gameDTO, Integer id) {
+        Game game = gameRepository.findById(id).orElse(null);
+        GameDTO updatedGameDTO = gameConverterToDTO.convert(game);
+
+        updatedGameDTO.setPrice(gameDTO.getPrice())
+                .setUserEvaluation(gameDTO.getUserEvaluation())
+                .setHide(gameDTO.isHide());
+
+        Game updatedGame = gameConverterToEntity.convert(updatedGameDTO);
+        gameRepository.save(updatedGame);
+        return updatedGameDTO;
     }
 
     @Override
