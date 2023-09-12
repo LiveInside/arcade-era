@@ -15,8 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "t_publisher")
-@Getter
-@Setter
+@Getter @Setter
 @Accessors(chain = true)
 public class Publisher {
     @Id

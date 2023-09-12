@@ -7,13 +7,13 @@ import org.nikita.arcadeera.converter.game.GameConverterToEntity;
 import org.nikita.arcadeera.dto.request.RequestGameDTO;
 import org.nikita.arcadeera.dto.response.GameDTO;
 import org.nikita.arcadeera.entity.Game;
-import org.nikita.arcadeera.exception.EmptyParam;
+import org.nikita.arcadeera.exception.EmptyParamException;
+import org.nikita.arcadeera.exception.ResourceNotFoundException;
 import org.nikita.arcadeera.repository.GameRepository;
 import org.nikita.arcadeera.service.GameService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,8 +35,7 @@ public class GameServiceImpl implements GameService {
     public List<GameDTO> getAllGames() {
         List<Game> games = gameRepository.findAll(); //Находим и извлекаем все игры из репозитория
         if (CollectionUtils.isEmpty(games)) {
-            log.info("Таблица games пустая");
-            return Collections.emptyList();
+            throw new ResourceNotFoundException("Таблица games пустая");
         }
         return games.stream()
                 .map(gameConverterToDTO::convert)
@@ -45,6 +44,15 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public GameDTO createGame(GameDTO gameDTO) {
+        if (gameDTO.getAgeRating() == null)
+            throw new EmptyParamException("Поле AgeRating обязательно к заполнению");
+        if (gameDTO.getGenre() == null)
+            throw new EmptyParamException("Поле Genre обязательно к заполнению");
+        if (gameDTO.getName() == null)
+            throw new EmptyParamException("Поле Name обязательно к заполнению");
+        if (gameDTO.getPlatform() == null)
+            throw new EmptyParamException("Поле Platform обязательно к заполнению");
+
         Game game = gameConverterToEntity.convert(gameDTO);
         gameRepository.save(game); // Сохраняем
         return gameConverterToDTO.convert(game);
@@ -55,9 +63,13 @@ public class GameServiceImpl implements GameService {
         Game game = gameRepository.findById(id).orElse(null);
         GameDTO updatedGameDTO = gameConverterToDTO.convert(game);
 
-        updatedGameDTO.setPrice(gameDTO.getPrice())
-                .setUserEvaluation(gameDTO.getUserEvaluation())
-                .setHide(gameDTO.isHide());
+        if (gameDTO.getPrice() != null) {
+            updatedGameDTO.setPrice(gameDTO.getPrice());
+        }
+        if (gameDTO.getUserEvaluation() != null) {
+            updatedGameDTO.setUserEvaluation(gameDTO.getUserEvaluation());
+        }
+        updatedGameDTO.setHide(gameDTO.isHide());
 
         Game updatedGame = gameConverterToEntity.convert(updatedGameDTO);
         gameRepository.save(updatedGame);
@@ -67,7 +79,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public void deleteGame(Integer id) {
         if (Objects.isNull(id))
-            throw new EmptyParam("Параметр пуст");
+            throw new EmptyParamException("Параметр пуст");
         gameRepository.deleteById(id); // Удаляем
     }
 }

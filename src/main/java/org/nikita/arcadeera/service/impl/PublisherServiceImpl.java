@@ -7,13 +7,13 @@ import org.nikita.arcadeera.converter.publisher.PublisherConverterToEntity;
 import org.nikita.arcadeera.dto.request.RequestPublisherDTO;
 import org.nikita.arcadeera.dto.response.PublisherDTO;
 import org.nikita.arcadeera.entity.Publisher;
-import org.nikita.arcadeera.exception.EmptyParam;
+import org.nikita.arcadeera.exception.EmptyParamException;
+import org.nikita.arcadeera.exception.ResourceNotFoundException;
 import org.nikita.arcadeera.repository.PublisherRepository;
 import org.nikita.arcadeera.service.PublisherService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,8 +36,7 @@ public class PublisherServiceImpl implements PublisherService {
     public List<PublisherDTO> getAllPublisher() {
         List<Publisher> publishers = publisherRepository.findAll();
         if (CollectionUtils.isEmpty(publishers)) {
-            log.info("Таблица publisher пустая");
-            return Collections.emptyList();
+            throw new ResourceNotFoundException("Таблица publisher пустая");
         }
 
         return publishers.stream()
@@ -47,6 +46,9 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public PublisherDTO createPublisher(PublisherDTO publisherDTO) {
+        if (publisherDTO.getName() == null)
+            throw new EmptyParamException("Поле Name обязательно к заполнению");
+
         Publisher publisher = publisherConverterToEntity.convert(publisherDTO);
         publisherRepository.save(publisher);
         return publisherConverterToDTO.convert(publisher);
@@ -57,8 +59,8 @@ public class PublisherServiceImpl implements PublisherService {
         Publisher publisher = publisherRepository.findById(id).orElse(null);
         PublisherDTO updatedPublisherDTO = publisherConverterToDTO.convert(publisher);
 
-        if (publisherDTO.getCountry().isEmpty()) {
-            throw new EmptyParam("Поле \"Страна\" обязательно для заполнения");
+        if (publisherDTO.getCountry() == null || publisherDTO.getCountry().isEmpty()) {
+            throw new EmptyParamException("Поле Страна обязательно для заполнения");
         }
 
         updatedPublisherDTO.setCountry(publisherDTO.getCountry())
@@ -72,7 +74,7 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public void deletePublisher(Integer id) {
         if (Objects.isNull(id))
-            throw new EmptyParam("Параметр пуст");
+            throw new EmptyParamException("Параметр пуст");
         publisherRepository.deleteById(id);
     }
 }
