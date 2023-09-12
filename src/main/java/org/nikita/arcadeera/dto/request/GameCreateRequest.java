@@ -9,8 +9,16 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class RequestGameDTO {
+public class GameCreateRequest {
+    private String name;
+
+    private String platform;
+
+    private String genre;
+
     private BigDecimal price;
+
+    private String ageRating;
 
     private BigDecimal userEvaluation;
 

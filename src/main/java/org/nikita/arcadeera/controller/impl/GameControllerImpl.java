@@ -2,7 +2,8 @@ package org.nikita.arcadeera.controller.impl;
 
 import lombok.AllArgsConstructor;
 import org.nikita.arcadeera.controller.GameController;
-import org.nikita.arcadeera.dto.request.RequestGameDTO;
+import org.nikita.arcadeera.dto.request.GameCreateRequest;
+import org.nikita.arcadeera.dto.request.GameUpdateRequest;
 import org.nikita.arcadeera.dto.response.GameDTO;
 import org.nikita.arcadeera.service.GameService;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,13 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public ResponseEntity<GameDTO> createGame(GameDTO gameDTO) {
-        return ResponseEntity.ok().body(gameService.createGame(gameDTO));
+    public ResponseEntity<GameDTO> createGame(GameCreateRequest gameCreateRequest) {
+        return ResponseEntity.ok().body(gameService.createGame(gameCreateRequest));
     }
 
     @Override
-    public ResponseEntity<GameDTO> updateGame(RequestGameDTO gameDTO, Integer id) {
-        return ResponseEntity.ok().body(gameService.updateGame(gameDTO, id));
+    public ResponseEntity<GameDTO> updateGame(GameUpdateRequest gameUpdateRequest, Integer id) {
+        return ResponseEntity.ok().body(gameService.updateGame(gameUpdateRequest, id));
     }
 
     @Override

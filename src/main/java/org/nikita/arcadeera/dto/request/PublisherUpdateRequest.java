@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class RequestPublisherDTO {
+public class PublisherUpdateRequest {
     private String country;
 
     private boolean hide;

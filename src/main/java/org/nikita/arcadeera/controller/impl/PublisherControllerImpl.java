@@ -2,7 +2,8 @@ package org.nikita.arcadeera.controller.impl;
 
 import lombok.AllArgsConstructor;
 import org.nikita.arcadeera.controller.PublisherController;
-import org.nikita.arcadeera.dto.request.RequestPublisherDTO;
+import org.nikita.arcadeera.dto.request.PublisherCreateRequest;
+import org.nikita.arcadeera.dto.request.PublisherUpdateRequest;
 import org.nikita.arcadeera.dto.response.PublisherDTO;
 import org.nikita.arcadeera.service.PublisherService;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,13 @@ public class PublisherControllerImpl implements PublisherController {
     }
 
     @Override
-    public ResponseEntity<PublisherDTO> createPublisher(PublisherDTO publisherDTO) {
-        return ResponseEntity.ok().body(publisherService.createPublisher(publisherDTO));
+    public ResponseEntity<PublisherDTO> createPublisher(PublisherCreateRequest publisherCreateRequest) {
+        return ResponseEntity.ok().body(publisherService.createPublisher(publisherCreateRequest));
     }
 
     @Override
-    public ResponseEntity<PublisherDTO> updatePublisher(RequestPublisherDTO publisherDTO, Integer id) {
-        return ResponseEntity.ok().body(publisherService.updatePublisher(publisherDTO, id));
+    public ResponseEntity<PublisherDTO> updatePublisher(PublisherUpdateRequest publisherUpdateRequest, Integer id) {
+        return ResponseEntity.ok().body(publisherService.updatePublisher(publisherUpdateRequest, id));
     }
 
     @Override

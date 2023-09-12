@@ -17,9 +17,7 @@ public class UserConverterToDTO implements Converter<User, UserDTO> {
         if (Objects.isNull(user)) {
             throw new ResourceNotFoundException("User не найден");
         }
-        return new UserDTO()
-                .setId(user.getId())
-                .setRegion(user.getRegion())
+        return new UserDTO().setRegion(user.getRegion())
                 .setAge(user.getAge())
                 .setBalance(user.getBalance())
                 .setName(user.getName());

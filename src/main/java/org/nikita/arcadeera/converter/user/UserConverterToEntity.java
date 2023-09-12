@@ -16,9 +16,7 @@ public class UserConverterToEntity implements Converter<UserDTO, User> {
     public User convert(UserDTO userDTO) {
         if (Objects.isNull(userDTO))
             throw new EmptyParamException("Пустой параметр");
-        return new User()
-                .setId(userDTO.getId())
-                .setRegion(userDTO.getRegion())
+        return new User().setRegion(userDTO.getRegion())
                 .setAge(userDTO.getAge())
                 .setBalance(userDTO.getBalance())
                 .setName(userDTO.getName());

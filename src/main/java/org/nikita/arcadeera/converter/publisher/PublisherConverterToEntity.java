@@ -17,9 +17,7 @@ public class PublisherConverterToEntity implements Converter<PublisherDTO, Publi
     public Publisher convert(PublisherDTO publisherDTO) {
         if (Objects.isNull(publisherDTO))
             throw new EmptyParamException("Параметр пуст");
-        return new Publisher()
-                .setId(publisherDTO.getId())
-                .setName(publisherDTO.getName())
+        return new Publisher().setName(publisherDTO.getName())
                 .setCountry(publisherDTO.getCountry())
                 .setHide(publisherDTO.isHide());
     }

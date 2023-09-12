@@ -1,4 +1,4 @@
-package org.nikita.arcadeera.dto.response;
+package org.nikita.arcadeera.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,24 +6,13 @@ import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 
-@Getter @Setter
+@Getter
+@Setter
 @Accessors(chain = true)
-public class GameDTO {
-
-    private Integer id;
-
-    private String name;
-
-    private String platform;
-
-    private String genre;
-
+public class GameUpdateRequest {
     private BigDecimal price;
-
-    private String ageRating;
 
     private BigDecimal userEvaluation;
 
     private boolean hide;
-
 }

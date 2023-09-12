@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class RequestUserDTO {
+public class UserUpdateRequest {
     private String region;
 
     private BigDecimal balance;

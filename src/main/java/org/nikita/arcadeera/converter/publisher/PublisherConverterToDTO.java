@@ -18,9 +18,7 @@ public class PublisherConverterToDTO implements Converter<Publisher, PublisherDT
         if (Objects.isNull(publisher)) {
             throw new ResourceNotFoundException("Издатель не найден");
         }
-        return new PublisherDTO()
-                .setId(publisher.getId())
-                .setName(publisher.getName())
+        return new PublisherDTO().setName(publisher.getName())
                 .setCountry(publisher.getCountry())
                 .setHide(publisher.isHide());
     }

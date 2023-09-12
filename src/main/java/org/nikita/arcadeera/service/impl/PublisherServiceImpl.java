@@ -2,9 +2,9 @@ package org.nikita.arcadeera.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.nikita.arcadeera.converter.publisher.PublisherConverterToDTO;
-import org.nikita.arcadeera.converter.publisher.PublisherConverterToEntity;
-import org.nikita.arcadeera.dto.request.RequestPublisherDTO;
+import org.nikita.arcadeera.converter.Converter;
+import org.nikita.arcadeera.dto.request.PublisherCreateRequest;
+import org.nikita.arcadeera.dto.request.PublisherUpdateRequest;
 import org.nikita.arcadeera.dto.response.PublisherDTO;
 import org.nikita.arcadeera.entity.Publisher;
 import org.nikita.arcadeera.exception.EmptyParamException;
@@ -15,15 +15,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @Log4j2
 @AllArgsConstructor
 public class PublisherServiceImpl implements PublisherService {
     private final PublisherRepository publisherRepository;
-    private final PublisherConverterToDTO publisherConverterToDTO;
-    private final PublisherConverterToEntity publisherConverterToEntity;
+    private final Converter<Publisher, PublisherDTO> publisherConverterToDTO;
+    private final Converter<PublisherDTO, Publisher> publisherConverterToEntity;
+    private final Converter<PublisherCreateRequest, Publisher> publisherCreateConverterToEntity;
 
 
     @Override
@@ -45,26 +45,26 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public PublisherDTO createPublisher(PublisherDTO publisherDTO) {
-        if (publisherDTO.getName() == null)
+    public PublisherDTO createPublisher(PublisherCreateRequest publisherCreateRequest) {
+        if (publisherCreateRequest.getName() == null)
             throw new EmptyParamException("Поле Name обязательно к заполнению");
 
-        Publisher publisher = publisherConverterToEntity.convert(publisherDTO);
+        Publisher publisher = publisherCreateConverterToEntity.convert(publisherCreateRequest);
         publisherRepository.save(publisher);
         return publisherConverterToDTO.convert(publisher);
     }
 
     @Override
-    public PublisherDTO updatePublisher(RequestPublisherDTO publisherDTO, Integer id) {
+    public PublisherDTO updatePublisher(PublisherUpdateRequest publisherUpdateRequest, Integer id) {
         Publisher publisher = publisherRepository.findById(id).orElse(null);
         PublisherDTO updatedPublisherDTO = publisherConverterToDTO.convert(publisher);
 
-        if (publisherDTO.getCountry() == null || publisherDTO.getCountry().isEmpty()) {
+        if (publisherUpdateRequest.getCountry() == null || publisherUpdateRequest.getCountry().isEmpty()) {
             throw new EmptyParamException("Поле Страна обязательно для заполнения");
         }
 
-        updatedPublisherDTO.setCountry(publisherDTO.getCountry())
-                .setHide(publisherDTO.isHide());
+        updatedPublisherDTO.setCountry(publisherUpdateRequest.getCountry())
+                .setHide(publisherUpdateRequest.isHide());
 
         Publisher updatedPublisher = publisherConverterToEntity.convert(updatedPublisherDTO);
         publisherRepository.save(updatedPublisher);
@@ -73,8 +73,6 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public void deletePublisher(Integer id) {
-        if (Objects.isNull(id))
-            throw new EmptyParamException("Параметр пуст");
         publisherRepository.deleteById(id);
     }
 }

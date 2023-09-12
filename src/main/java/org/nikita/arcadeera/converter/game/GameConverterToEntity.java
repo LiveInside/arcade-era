@@ -15,11 +15,10 @@ public class GameConverterToEntity implements Converter<GameDTO, Game> {
 
     @Override
     public Game convert(GameDTO gameDTO) {
-        if (Objects.isNull(gameDTO))
+        if (Objects.isNull(gameDTO)) {
             throw new EmptyParamException("Параметр пуст");
-        return new Game()
-                .setId(gameDTO.getId())
-                .setName(gameDTO.getName())
+        }
+        return new Game().setName(gameDTO.getName())
                 .setPlatform(gameDTO.getPlatform())
                 .setGenre(gameDTO.getGenre())
                 .setPrice(gameDTO.getPrice())

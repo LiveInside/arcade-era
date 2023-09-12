@@ -17,8 +17,7 @@ public class GameConverterToDTO implements Converter<Game, GameDTO> {
         if (Objects.isNull(game)) {
             throw new ResourceNotFoundException("Игра не найдена");
         }
-        return new GameDTO().setId(game.getId())
-                .setName(game.getName())
+        return new GameDTO().setName(game.getName())
                 .setPlatform(game.getPlatform())
                 .setGenre(game.getGenre())
                 .setPrice(game.getPrice())
