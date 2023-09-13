@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 
 @ControllerAdvice
-public class ErrorHandlingControllerAdvice {
+public class ExceptionHandlingControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
