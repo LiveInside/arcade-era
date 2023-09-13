@@ -4,7 +4,6 @@ import lombok.extern.log4j.Log4j2;
 import org.nikita.arcadeera.converter.Converter;
 import org.nikita.arcadeera.dto.response.GameDTO;
 import org.nikita.arcadeera.entity.Game;
-import org.nikita.arcadeera.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -15,9 +14,10 @@ public class GameConverterToDTO implements Converter<Game, GameDTO> {
     @Override
     public GameDTO convert(Game game) {
         if (Objects.isNull(game)) {
-            throw new ResourceNotFoundException("Игра не найдена");
+            return null;
         }
-        return new GameDTO().setName(game.getName())
+        return new GameDTO().setId(game.getId())
+                .setName(game.getName())
                 .setPlatform(game.getPlatform())
                 .setGenre(game.getGenre())
                 .setPrice(game.getPrice())

@@ -1,5 +1,6 @@
 package org.nikita.arcadeera.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -8,8 +9,10 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 public class PublisherCreateRequest {
+    @NotBlank(message = "Поле не должно быть пустым или состоять из пробелов")
     private String name;
 
+    @NotBlank(message = "Поле не должно быть пустым или состоять из пробелов")
     private String country;
 
     private boolean hide;

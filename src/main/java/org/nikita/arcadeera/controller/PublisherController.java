@@ -1,5 +1,7 @@
 package org.nikita.arcadeera.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.nikita.arcadeera.dto.request.PublisherCreateRequest;
 import org.nikita.arcadeera.dto.request.PublisherUpdateRequest;
 import org.nikita.arcadeera.dto.response.PublisherDTO;
@@ -19,16 +21,16 @@ import java.util.List;
 @RequestMapping("/publishers")
 public interface PublisherController {
     @GetMapping("/{id}")
-    ResponseEntity<PublisherDTO> getPublisherById(@PathVariable Integer id);
+    ResponseEntity<PublisherDTO> getPublisherById(@PathVariable @Min(value = 1, message = "Не может быть меньше 1") Integer id);
 
     @GetMapping
     ResponseEntity<List<PublisherDTO>> getAllPublisher();
 
     @PostMapping
-    ResponseEntity<PublisherDTO> createPublisher(@RequestBody PublisherCreateRequest publisherCreateRequest);
+    ResponseEntity<PublisherDTO> createPublisher(@Valid @RequestBody PublisherCreateRequest publisherCreateRequest);
 
     @PutMapping("/{id}")
-    ResponseEntity<PublisherDTO> updatePublisher(@RequestBody PublisherUpdateRequest publisherUpdateRequest, @PathVariable Integer id);
+    ResponseEntity<PublisherDTO> updatePublisher(@Valid @RequestBody PublisherUpdateRequest publisherUpdateRequest, @PathVariable Integer id);
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteUser(@PathVariable Integer id);

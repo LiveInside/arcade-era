@@ -4,7 +4,6 @@ import lombok.extern.log4j.Log4j2;
 import org.nikita.arcadeera.converter.Converter;
 import org.nikita.arcadeera.dto.response.UserDTO;
 import org.nikita.arcadeera.entity.User;
-import org.nikita.arcadeera.exception.EmptyParamException;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -15,7 +14,7 @@ public class UserConverterToEntity implements Converter<UserDTO, User> {
     @Override
     public User convert(UserDTO userDTO) {
         if (Objects.isNull(userDTO))
-            throw new EmptyParamException("Пустой параметр");
+            return null;
         return new User().setRegion(userDTO.getRegion())
                 .setAge(userDTO.getAge())
                 .setBalance(userDTO.getBalance())

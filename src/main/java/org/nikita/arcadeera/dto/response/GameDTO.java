@@ -6,7 +6,8 @@ import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 
-@Getter @Setter
+@Getter
+@Setter
 @Accessors(chain = true)
 public class GameDTO {
 

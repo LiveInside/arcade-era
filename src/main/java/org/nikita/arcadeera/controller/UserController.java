@@ -1,5 +1,7 @@
 package org.nikita.arcadeera.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.nikita.arcadeera.dto.request.UserCreateRequest;
 import org.nikita.arcadeera.dto.request.UserUpdateRequest;
 import org.nikita.arcadeera.dto.response.UserDTO;
@@ -19,16 +21,16 @@ import java.util.List;
 @RequestMapping("/users")
 public interface UserController {
     @GetMapping("/{id}")
-    ResponseEntity<UserDTO> getUserById(@PathVariable Integer id);
+    ResponseEntity<UserDTO> getUserById(@PathVariable @Min(value = 1, message = "Не может быть меньше 1") Integer id);
 
     @GetMapping
     ResponseEntity<List<UserDTO>> getAllUsers();
 
     @PostMapping
-    ResponseEntity<UserDTO> createUser(@RequestBody UserCreateRequest userCreateRequest);
+    ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserCreateRequest userCreateRequest);
 
     @PutMapping("/{id}")
-    ResponseEntity<UserDTO> updateUser(@RequestBody UserUpdateRequest userUpdateRequest, @PathVariable Integer id);
+    ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest, @PathVariable Integer id);
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteUser(@PathVariable Integer id);

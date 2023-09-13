@@ -1,5 +1,6 @@
 package org.nikita.arcadeera.controller;
 
+import jakarta.validation.Valid;
 import org.nikita.arcadeera.dto.request.GameCreateRequest;
 import org.nikita.arcadeera.dto.request.GameUpdateRequest;
 import org.nikita.arcadeera.dto.response.GameDTO;
@@ -25,10 +26,10 @@ public interface GameController {
     ResponseEntity<List<GameDTO>> getAllGames();
 
     @PostMapping
-    ResponseEntity<GameDTO> createGame(@RequestBody GameCreateRequest gameCreateRequest);
+    ResponseEntity<GameDTO> createGame(@Valid @RequestBody GameCreateRequest gameCreateRequest);
 
     @PutMapping("/{id}")
-    ResponseEntity<GameDTO> updateGame(@RequestBody GameUpdateRequest gameUpdateRequest, @PathVariable Integer id);
+    ResponseEntity<GameDTO> updateGame(@Valid @RequestBody GameUpdateRequest gameUpdateRequest, @PathVariable Integer id);
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteGame(@PathVariable Integer id);
