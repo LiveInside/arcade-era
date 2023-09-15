@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Schema(description = "Сущность игры, которая возвращается в ответе")
 public class GameDTO {
 
-    @Schema(description = "Идентификатор игры", accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(description = "Идентификатор игры")
     private Integer id;
 
     @Schema(description = "Название игры")

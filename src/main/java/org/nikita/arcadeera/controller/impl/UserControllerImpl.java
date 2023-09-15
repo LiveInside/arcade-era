@@ -5,6 +5,7 @@ import org.nikita.arcadeera.controller.UserController;
 import org.nikita.arcadeera.dto.request.UserCreateRequest;
 import org.nikita.arcadeera.dto.request.UserUpdateRequest;
 import org.nikita.arcadeera.dto.response.UserDTO;
+import org.nikita.arcadeera.exception.NotUpdated;
 import org.nikita.arcadeera.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,28 +18,28 @@ public class UserControllerImpl implements UserController {
     private final UserService userService;
 
     @Override
-    public ResponseEntity<UserDTO> getUserById(Integer id) {
-        return ResponseEntity.ok().body(userService.getUserByID(id));
+    public ResponseEntity<UserDTO> get(Integer id) {
+        return ResponseEntity.ok().body(userService.get(id));
     }
 
     @Override
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok().body(userService.getAllUsers());
+    public ResponseEntity<List<UserDTO>> getAll() {
+        return ResponseEntity.ok().body(userService.getAll());
     }
 
     @Override
-    public ResponseEntity<UserDTO> createUser(UserCreateRequest userCreateRequest) {
-        return ResponseEntity.ok().body(userService.createUser(userCreateRequest));
+    public ResponseEntity<UserDTO> create(UserCreateRequest userCreateRequest) {
+        return ResponseEntity.ok().body(userService.create(userCreateRequest));
     }
 
     @Override
-    public ResponseEntity<UserDTO> updateUser(UserUpdateRequest userUpdateRequest, Integer id) {
-        return ResponseEntity.ok().body(userService.updateUser(userUpdateRequest, id));
+    public ResponseEntity<UserDTO> update(UserUpdateRequest userUpdateRequest, Integer id) throws NotUpdated {
+        return ResponseEntity.ok().body(userService.update(userUpdateRequest, id));
     }
 
     @Override
-    public ResponseEntity<Void> deleteUser(Integer id) {
-        userService.deleteUser(id);
+    public ResponseEntity<Void> delete(Integer id) {
+        userService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

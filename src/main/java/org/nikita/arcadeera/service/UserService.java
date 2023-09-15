@@ -3,17 +3,18 @@ package org.nikita.arcadeera.service;
 import org.nikita.arcadeera.dto.request.UserCreateRequest;
 import org.nikita.arcadeera.dto.request.UserUpdateRequest;
 import org.nikita.arcadeera.dto.response.UserDTO;
+import org.nikita.arcadeera.exception.NotUpdated;
 
 import java.util.List;
 
 public interface UserService {
-    UserDTO getUserByID(Integer id);
+    UserDTO get(Integer id);
 
-    List<UserDTO> getAllUsers();
+    List<UserDTO> getAll();
 
-    UserDTO createUser(UserCreateRequest userCreateRequest);
+    UserDTO create(UserCreateRequest userCreateRequest);
 
-    UserDTO updateUser(UserUpdateRequest userUpdateRequest, Integer id);
+    UserDTO update(UserUpdateRequest userUpdateRequest, Integer id) throws NotUpdated;
 
-    void deleteUser(Integer id);
+    void delete(Integer id);
 }

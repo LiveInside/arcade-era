@@ -3,18 +3,19 @@ package org.nikita.arcadeera.service;
 import org.nikita.arcadeera.dto.request.PublisherCreateRequest;
 import org.nikita.arcadeera.dto.request.PublisherUpdateRequest;
 import org.nikita.arcadeera.dto.response.PublisherDTO;
+import org.nikita.arcadeera.exception.NotUpdated;
 
 import java.util.List;
 
 public interface PublisherService {
-    PublisherDTO getPublisherById(Integer id);
+    PublisherDTO get(Integer id);
 
-    List<PublisherDTO> getAllPublisher();
+    List<PublisherDTO> getAll();
 
-    PublisherDTO createPublisher(PublisherCreateRequest publisherCreateRequest);
+    PublisherDTO create(PublisherCreateRequest publisherCreateRequest);
 
-    PublisherDTO updatePublisher(PublisherUpdateRequest publisherUpdateRequest, Integer id);
+    PublisherDTO update(PublisherUpdateRequest publisherUpdateRequest, Integer id) throws NotUpdated;
 
-    void deletePublisher(Integer id);
+    void delete(Integer id);
 
 }

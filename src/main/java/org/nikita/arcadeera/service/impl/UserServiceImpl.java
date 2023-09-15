@@ -1,5 +1,6 @@
 package org.nikita.arcadeera.service.impl;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.nikita.arcadeera.converter.Converter;
@@ -7,15 +8,18 @@ import org.nikita.arcadeera.dto.request.UserCreateRequest;
 import org.nikita.arcadeera.dto.request.UserUpdateRequest;
 import org.nikita.arcadeera.dto.response.UserDTO;
 import org.nikita.arcadeera.entity.User;
+import org.nikita.arcadeera.exception.NotUpdated;
 import org.nikita.arcadeera.repository.UserRepository;
 import org.nikita.arcadeera.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
 @Log4j2
 @AllArgsConstructor
+@Validated
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final Converter<User, UserDTO> userConverterToDTO;
@@ -23,14 +27,14 @@ public class UserServiceImpl implements UserService {
     private final Converter<UserCreateRequest, User> userCreateConverterToEntity;
 
     @Override
-    public UserDTO getUserByID(Integer id) {
+    public @NotNull(message = "Пользователь не найден") UserDTO get(Integer id) {
         User user = userRepository.findById(id).orElse(null);
 
         return userConverterToDTO.convert(user);
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
+    public List<UserDTO> getAll() {
         List<User> users = userRepository.findAll();
 
         return users.stream()
@@ -39,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO createUser(UserCreateRequest userCreateRequest) {
+    public UserDTO create(UserCreateRequest userCreateRequest) {
         User user = userCreateConverterToEntity.convert(userCreateRequest);
         userRepository.save(user);
 
@@ -47,8 +51,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateUser(UserUpdateRequest userUpdateRequest, Integer id) {
+    public @NotNull(message = "Пользователь не найден") UserDTO update(UserUpdateRequest userUpdateRequest, Integer id) throws NotUpdated {
         User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new NotUpdated();
+        }
         UserDTO updatedUserDTO = userConverterToDTO.convert(user);
 
         updatedUserDTO.setBalance(userUpdateRequest.getBalance())
@@ -62,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public void delete(Integer id) {
         userRepository.deleteById(id);
     }
 }

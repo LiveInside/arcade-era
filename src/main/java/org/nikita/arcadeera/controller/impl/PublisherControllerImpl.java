@@ -5,6 +5,7 @@ import org.nikita.arcadeera.controller.PublisherController;
 import org.nikita.arcadeera.dto.request.PublisherCreateRequest;
 import org.nikita.arcadeera.dto.request.PublisherUpdateRequest;
 import org.nikita.arcadeera.dto.response.PublisherDTO;
+import org.nikita.arcadeera.exception.NotUpdated;
 import org.nikita.arcadeera.service.PublisherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,28 +18,28 @@ public class PublisherControllerImpl implements PublisherController {
     private final PublisherService publisherService;
 
     @Override
-    public ResponseEntity<PublisherDTO> getPublisherById(Integer id) {
-        return ResponseEntity.ok().body(publisherService.getPublisherById(id));
+    public ResponseEntity<PublisherDTO> get(Integer id) {
+        return ResponseEntity.ok().body(publisherService.get(id));
     }
 
     @Override
-    public ResponseEntity<List<PublisherDTO>> getAllPublisher() {
-        return ResponseEntity.ok().body(publisherService.getAllPublisher());
+    public ResponseEntity<List<PublisherDTO>> getAll() {
+        return ResponseEntity.ok().body(publisherService.getAll());
     }
 
     @Override
-    public ResponseEntity<PublisherDTO> createPublisher(PublisherCreateRequest publisherCreateRequest) {
-        return ResponseEntity.ok().body(publisherService.createPublisher(publisherCreateRequest));
+    public ResponseEntity<PublisherDTO> create(PublisherCreateRequest publisherCreateRequest) {
+        return ResponseEntity.ok().body(publisherService.create(publisherCreateRequest));
     }
 
     @Override
-    public ResponseEntity<PublisherDTO> updatePublisher(PublisherUpdateRequest publisherUpdateRequest, Integer id) {
-        return ResponseEntity.ok().body(publisherService.updatePublisher(publisherUpdateRequest, id));
+    public ResponseEntity<PublisherDTO> update(PublisherUpdateRequest publisherUpdateRequest, Integer id) throws NotUpdated {
+        return ResponseEntity.ok().body(publisherService.update(publisherUpdateRequest, id));
     }
 
     @Override
-    public ResponseEntity<Void> deleteUser(Integer id) {
-        publisherService.deletePublisher(id);
+    public ResponseEntity<Void> delete(Integer id) {
+        publisherService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

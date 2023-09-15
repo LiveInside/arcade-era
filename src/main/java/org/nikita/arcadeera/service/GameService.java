@@ -3,17 +3,18 @@ package org.nikita.arcadeera.service;
 import org.nikita.arcadeera.dto.request.GameCreateRequest;
 import org.nikita.arcadeera.dto.request.GameUpdateRequest;
 import org.nikita.arcadeera.dto.response.GameDTO;
+import org.nikita.arcadeera.exception.NotUpdated;
 
 import java.util.List;
 
 public interface GameService {
-    GameDTO getGameById(Integer id);
+    GameDTO get(Integer id);
 
-    List<GameDTO> getAllGames();
+    List<GameDTO> getAll();
 
-    GameDTO createGame(GameCreateRequest gameCreateRequest);
+    GameDTO create(GameCreateRequest gameCreateRequest);
 
-    GameDTO updateGame(GameUpdateRequest gameUpdateRequest, Integer id);
+    GameDTO update(GameUpdateRequest gameUpdateRequest, Integer id) throws NotUpdated;
 
-    void deleteGame(Integer id);
+    void delete(Integer id);
 }

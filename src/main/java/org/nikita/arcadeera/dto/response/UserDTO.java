@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 @Schema(description = "Сущность пользователя, которая возвращается в ответе")
 public class UserDTO {
-    @Schema(description = "Идентификатор пользователя", accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(description = "Идентификатор пользователя")
     private Integer id;
 
     @Schema(description = "Регион пользователя")

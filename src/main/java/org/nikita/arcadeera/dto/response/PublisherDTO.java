@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Schema(description = "Сущность издателя, которая взвращается в ответе")
 public class PublisherDTO {
-    @Schema(description = "Идентификатор издателя", accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(description = "Идентификатор издателя")
     private Integer id;
 
     @Schema(description = "Название издателя")
