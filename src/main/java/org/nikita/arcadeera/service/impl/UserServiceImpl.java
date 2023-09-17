@@ -3,12 +3,12 @@ package org.nikita.arcadeera.service.impl;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.nikita.arcadeera.checks.CheckNull;
 import org.nikita.arcadeera.converter.Converter;
 import org.nikita.arcadeera.dto.request.UserCreateRequest;
 import org.nikita.arcadeera.dto.request.UserUpdateRequest;
 import org.nikita.arcadeera.dto.response.UserDTO;
 import org.nikita.arcadeera.entity.User;
-import org.nikita.arcadeera.exception.NotUpdated;
 import org.nikita.arcadeera.repository.UserRepository;
 import org.nikita.arcadeera.service.UserService;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final Converter<User, UserDTO> userConverterToDTO;
     private final Converter<UserDTO, User> userConverterToEntity;
     private final Converter<UserCreateRequest, User> userCreateConverterToEntity;
+    private final CheckNull<User> checkNull;
 
     @Override
     public @NotNull(message = "Пользователь не найден") UserDTO get(Integer id) {
@@ -51,11 +52,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public @NotNull(message = "Пользователь не найден") UserDTO update(UserUpdateRequest userUpdateRequest, Integer id) throws NotUpdated {
+    public @NotNull(message = "Пользователь не найден") UserDTO update(UserUpdateRequest userUpdateRequest, Integer id) {
         User user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            throw new NotUpdated();
-        }
+        checkNull.checkForNull(user);
         UserDTO updatedUserDTO = userConverterToDTO.convert(user);
 
         updatedUserDTO.setBalance(userUpdateRequest.getBalance())

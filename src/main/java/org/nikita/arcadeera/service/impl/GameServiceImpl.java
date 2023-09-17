@@ -3,12 +3,12 @@ package org.nikita.arcadeera.service.impl;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.nikita.arcadeera.checks.CheckNull;
 import org.nikita.arcadeera.converter.Converter;
 import org.nikita.arcadeera.dto.request.GameCreateRequest;
 import org.nikita.arcadeera.dto.request.GameUpdateRequest;
 import org.nikita.arcadeera.dto.response.GameDTO;
 import org.nikita.arcadeera.entity.Game;
-import org.nikita.arcadeera.exception.NotUpdated;
 import org.nikita.arcadeera.repository.GameRepository;
 import org.nikita.arcadeera.service.GameService;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ public class GameServiceImpl implements GameService {
     private final Converter<Game, GameDTO> gameConverterToDTO;
     private final Converter<GameDTO, Game> gameConverterToEntity;
     private final Converter<GameCreateRequest, Game> gameCreateConverterToEntity;
+    private final CheckNull<Game> checkNull;
 
     @Override
     public @NotNull(message = "Игра не найдена") GameDTO get(Integer id) {
@@ -51,14 +52,12 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameDTO update(GameUpdateRequest gameUpdateRequest, Integer id) throws NotUpdated {
+    public GameDTO update(GameUpdateRequest gameUpdateRequest, Integer id) {
         Game game = gameRepository.findById(id).orElse(null);
-        if (game == null) {
-            throw new NotUpdated();
-        }
+        checkNull.checkForNull(game);
         GameDTO updatedGameDTO = gameConverterToDTO.convert(game);
 
-       updatedGameDTO.setPrice(gameUpdateRequest.getPrice())
+        updatedGameDTO.setPrice(gameUpdateRequest.getPrice())
                 .setUserEvaluation(gameUpdateRequest.getUserEvaluation())
                 .setHide(gameUpdateRequest.isHide());
 

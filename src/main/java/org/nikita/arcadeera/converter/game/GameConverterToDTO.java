@@ -10,6 +10,7 @@ import java.util.Objects;
 
 @Component
 @Log4j2
+
 public class GameConverterToDTO implements Converter<Game, GameDTO> {
     @Override
     public GameDTO convert(Game game) {

@@ -5,7 +5,6 @@ import org.nikita.arcadeera.controller.GameController;
 import org.nikita.arcadeera.dto.request.GameCreateRequest;
 import org.nikita.arcadeera.dto.request.GameUpdateRequest;
 import org.nikita.arcadeera.dto.response.GameDTO;
-import org.nikita.arcadeera.exception.NotUpdated;
 import org.nikita.arcadeera.service.GameService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +32,7 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public ResponseEntity<GameDTO> update(GameUpdateRequest gameUpdateRequest, Integer id) throws NotUpdated {
+    public ResponseEntity<GameDTO> update(GameUpdateRequest gameUpdateRequest, Integer id) {
         return ResponseEntity.ok().body(gameService.update(gameUpdateRequest, id));
     }
 

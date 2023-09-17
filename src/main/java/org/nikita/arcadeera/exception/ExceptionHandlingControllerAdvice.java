@@ -2,9 +2,7 @@ package org.nikita.arcadeera.exception;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import jdk.jshell.Snippet;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,12 +32,5 @@ public class ExceptionHandlingControllerAdvice {
         return e.getBindingResult().getFieldErrors().stream()
                 .map(error -> new Violation(error.getField(), error.getDefaultMessage()))
                 .toList();
-    }
-
-    @ExceptionHandler(NotUpdated.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ResponseBody
-    public ResponseEntity<String> onNotFoundException() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Обновить не удалось, объект не найден");
     }
 }

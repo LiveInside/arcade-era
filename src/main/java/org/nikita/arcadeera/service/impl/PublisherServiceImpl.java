@@ -3,12 +3,12 @@ package org.nikita.arcadeera.service.impl;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.nikita.arcadeera.checks.CheckNull;
 import org.nikita.arcadeera.converter.Converter;
 import org.nikita.arcadeera.dto.request.PublisherCreateRequest;
 import org.nikita.arcadeera.dto.request.PublisherUpdateRequest;
 import org.nikita.arcadeera.dto.response.PublisherDTO;
 import org.nikita.arcadeera.entity.Publisher;
-import org.nikita.arcadeera.exception.NotUpdated;
 import org.nikita.arcadeera.repository.PublisherRepository;
 import org.nikita.arcadeera.service.PublisherService;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ public class PublisherServiceImpl implements PublisherService {
     private final Converter<Publisher, PublisherDTO> publisherConverterToDTO;
     private final Converter<PublisherDTO, Publisher> publisherConverterToEntity;
     private final Converter<PublisherCreateRequest, Publisher> publisherCreateConverterToEntity;
+    private final CheckNull<Publisher> checkNull;
 
 
     @Override
@@ -52,11 +53,9 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public @NotNull(message = "Издатель не найден") PublisherDTO update(PublisherUpdateRequest publisherUpdateRequest, Integer id) throws NotUpdated {
+    public @NotNull(message = "Издатель не найден") PublisherDTO update(PublisherUpdateRequest publisherUpdateRequest, Integer id) {
         Publisher publisher = publisherRepository.findById(id).orElse(null);
-        if (publisher == null) {
-            throw new NotUpdated();
-        }
+        checkNull.checkForNull(publisher);
         PublisherDTO updatedPublisherDTO = publisherConverterToDTO.convert(publisher);
 
         updatedPublisherDTO.setCountry(publisherUpdateRequest.getCountry())

@@ -5,7 +5,6 @@ import org.nikita.arcadeera.controller.UserController;
 import org.nikita.arcadeera.dto.request.UserCreateRequest;
 import org.nikita.arcadeera.dto.request.UserUpdateRequest;
 import org.nikita.arcadeera.dto.response.UserDTO;
-import org.nikita.arcadeera.exception.NotUpdated;
 import org.nikita.arcadeera.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +32,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<UserDTO> update(UserUpdateRequest userUpdateRequest, Integer id) throws NotUpdated {
+    public ResponseEntity<UserDTO> update(UserUpdateRequest userUpdateRequest, Integer id) {
         return ResponseEntity.ok().body(userService.update(userUpdateRequest, id));
     }
 

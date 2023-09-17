@@ -10,7 +10,6 @@ import jakarta.validation.Valid;
 import org.nikita.arcadeera.dto.request.PublisherCreateRequest;
 import org.nikita.arcadeera.dto.request.PublisherUpdateRequest;
 import org.nikita.arcadeera.dto.response.PublisherDTO;
-import org.nikita.arcadeera.exception.NotUpdated;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +39,8 @@ public interface PublisherController {
     @GetMapping
     ResponseEntity<List<PublisherDTO>> getAll();
 
-    @Operation(summary = "Создать издателя", description = "Создает нового издателя в базе данных", responses =  {
-            @ApiResponse(responseCode = "201", description = "Издатель создан", content = @Content (schema = @Schema(implementation = PublisherDTO.class))),
+    @Operation(summary = "Создать издателя", description = "Создает нового издателя в базе данных", responses = {
+            @ApiResponse(responseCode = "201", description = "Издатель создан", content = @Content(schema = @Schema(implementation = PublisherDTO.class))),
             @ApiResponse(responseCode = "422", description = "Издатель не создан. Введеные пользователем данные не верны")
     })
     @PostMapping
@@ -53,7 +52,7 @@ public interface PublisherController {
             @ApiResponse(responseCode = "404", description = "Не найден")
     })
     @PutMapping("/{id}")
-    ResponseEntity<PublisherDTO> update(@Valid @RequestBody @Parameter(description = "Данные по которым нужнообновить издателя") PublisherUpdateRequest publisherUpdateRequest, @PathVariable @Parameter(description = "Идентификатор издателя") Integer id) throws NotUpdated;
+    ResponseEntity<PublisherDTO> update(@Valid @RequestBody @Parameter(description = "Данные по которым нужнообновить издателя") PublisherUpdateRequest publisherUpdateRequest, @PathVariable @Parameter(description = "Идентификатор издателя") Integer id);
 
     @Operation(summary = "Удалить издателя", description = "Удаляет издателя по заданному id", responses = @ApiResponse(responseCode = "204", description = "Игра удалена"))
     @DeleteMapping("/{id}")

@@ -5,7 +5,6 @@ import org.nikita.arcadeera.controller.PublisherController;
 import org.nikita.arcadeera.dto.request.PublisherCreateRequest;
 import org.nikita.arcadeera.dto.request.PublisherUpdateRequest;
 import org.nikita.arcadeera.dto.response.PublisherDTO;
-import org.nikita.arcadeera.exception.NotUpdated;
 import org.nikita.arcadeera.service.PublisherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +32,7 @@ public class PublisherControllerImpl implements PublisherController {
     }
 
     @Override
-    public ResponseEntity<PublisherDTO> update(PublisherUpdateRequest publisherUpdateRequest, Integer id) throws NotUpdated {
+    public ResponseEntity<PublisherDTO> update(PublisherUpdateRequest publisherUpdateRequest, Integer id) {
         return ResponseEntity.ok().body(publisherService.update(publisherUpdateRequest, id));
     }
 
