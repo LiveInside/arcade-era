@@ -54,6 +54,8 @@
 * Для миграций был использован - <a href = "https://www.liquibase.com/">Liquebase</a>
 * Для описания функционала и предоставления пользовательского интерфейса был использован - <a href = "https://swagger.io/">Swagger</a>
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- GETTING STARTED -->
 ## Пример работы
 
