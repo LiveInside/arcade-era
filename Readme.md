@@ -7,7 +7,7 @@
     <img src="images/logo.png" alt="Logo" width="133" height="111">
   </a>
 
-<h3 align="center">ROME CALCULATOR</h3>
+<h3 align="center">ArcadeEra Store</h3>
   <p align="center">
     Это лучший магазин игр! :smile:
   </p>
