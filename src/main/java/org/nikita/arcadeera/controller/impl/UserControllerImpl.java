@@ -28,7 +28,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public ResponseEntity<UserDTO> create(UserCreateRequest userCreateRequest) {
-        return ResponseEntity.ok().body(userService.create(userCreateRequest));
+        return ResponseEntity.status(201).body(userService.create(userCreateRequest));
     }
 
     @Override

@@ -47,7 +47,7 @@ public interface GameController {
     ResponseEntity<GameDTO> create(@Valid @RequestBody @Parameter(description = "Данные по которым нужно создать игру") GameCreateRequest gameCreateRequest);
 
     @Operation(summary = "Обновить игру", description = "Обновляет уже существующую игру по заданному id", responses = {
-            @ApiResponse(responseCode = "201", description = "Игра обновлена", content = @Content(schema = @Schema(implementation = GameDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Игра обновлена", content = @Content(schema = @Schema(implementation = GameDTO.class))),
             @ApiResponse(responseCode = "422", description = "Игра не обновлена. Введеные пользователем данные не верные"),
             @ApiResponse(responseCode = "404", description = "Не найден")
     })

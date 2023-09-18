@@ -47,7 +47,7 @@ public interface PublisherController {
     ResponseEntity<PublisherDTO> create(@Valid @RequestBody @Parameter(description = "Данные по которым нужно создать издателя") PublisherCreateRequest publisherCreateRequest);
 
     @Operation(summary = "Обновить издателя", description = "Обновляет уже существующего издателя по заданному id", responses = {
-            @ApiResponse(responseCode = "201", description = "Издатель обновлён", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PublisherDTO.class))}),
+            @ApiResponse(responseCode = "200", description = "Издатель обновлён", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PublisherDTO.class))}),
             @ApiResponse(responseCode = "422", description = "Издатель не обновлен. Введеные пользователем данные не верные"),
             @ApiResponse(responseCode = "404", description = "Не найден")
     })

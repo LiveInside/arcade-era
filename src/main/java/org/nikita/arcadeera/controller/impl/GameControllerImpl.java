@@ -28,7 +28,7 @@ public class GameControllerImpl implements GameController {
 
     @Override
     public ResponseEntity<GameDTO> create(GameCreateRequest gameCreateRequest) {
-        return ResponseEntity.ok().body(gameService.create(gameCreateRequest));
+        return ResponseEntity.status(201).body(gameService.create(gameCreateRequest));
     }
 
     @Override

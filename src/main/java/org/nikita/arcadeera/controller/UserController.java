@@ -47,7 +47,7 @@ public interface UserController {
     ResponseEntity<UserDTO> create(@Valid @RequestBody @Parameter(description = "Данные по которым нужно создать пользователя") UserCreateRequest userCreateRequest);
 
     @Operation(summary = "Обновить пользователя", description = "Обновляет уже существующего пользователя по заданному id", responses = {
-            @ApiResponse(responseCode = "201", description = "Пользователь обновлен", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Пользователь обновлен", content = @Content(schema = @Schema(implementation = UserDTO.class))),
             @ApiResponse(responseCode = "422", description = "Пользователь не обновлен. Введенные пользователем данные не верные"),
             @ApiResponse(responseCode = "404", description = "Не найден")
     })

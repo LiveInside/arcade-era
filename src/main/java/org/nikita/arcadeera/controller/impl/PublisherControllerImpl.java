@@ -28,7 +28,7 @@ public class PublisherControllerImpl implements PublisherController {
 
     @Override
     public ResponseEntity<PublisherDTO> create(PublisherCreateRequest publisherCreateRequest) {
-        return ResponseEntity.ok().body(publisherService.create(publisherCreateRequest));
+        return ResponseEntity.status(201).body(publisherService.create(publisherCreateRequest));
     }
 
     @Override
