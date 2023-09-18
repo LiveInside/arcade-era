@@ -34,8 +34,7 @@ public interface GameController {
     ResponseEntity<GameDTO> get(@PathVariable @Parameter(description = "Идентификатор игры") Integer id);
 
     @Operation(summary = "Получить все игры", description = "Возвращает все игры", responses = {
-            @ApiResponse(responseCode = "200", description = "Игры найдены", content = @Content(schema = @Schema(implementation = GameDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Не найден")
+            @ApiResponse(responseCode = "200", description = "Игры найдены", content = @Content(schema = @Schema(implementation = GameDTO.class)))
     })
     @GetMapping
     ResponseEntity<List<GameDTO>> getAll();
